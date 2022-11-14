@@ -22,10 +22,34 @@ runs:
   using: composite
   steps:
     - name: check
-      shell: bash
-      run: python check.py "$CLASS_NAME" "$FILE1" "$FILE2" $NOT_EQUAL
+      shell: python
+      run: |
+        import os
+        from competitive_verifier.models import *
+
+        CLASS_NAME = os.getenv('CLASS_NAME')
+        FILE1 = os.getenv('FILE1')
+        FILE2 = os.getenv('FILE2')
+        NOT_EQUAL = os.getenv('NOT_EQUAL')
+
+        target_type = globals()[CLASS_NAME]
+        with open(FILE1, mode='r') as fp:
+            obj1 = target_type.parse_raw(fp.read())
+        with open(FILE2, mode='r') as fp:
+            obj2 = target_type.parse_raw(fp.read())
+
+        print("file1")
+        print(obj1.json())
+        print("\n")
+        print("file2")
+        print(obj2.json())
+        if NOT_EQUAL and NOT_EQUAL.lower() == "true":
+            assert obj1 != obj2
+        else:
+            assert obj1 == obj2
+
       env:
         CLASS_NAME: ${{ inputs.class }}
         FILE1: ${{ inputs.file1 }}
         FILE2: ${{ inputs.file2 }}
-        NOT_EQUAL: ${{ fromJSON(inputs.not) && '--not-equal' || '' }}
+        NOT_EQUAL: ${{ inputs.not }}

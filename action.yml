@@ -1,0 +1,27 @@
+name: "Check object equality"
+description: "A composite action that check `competitive-verifier` object."
+author: "Kzrnm"
+branding:
+  color: blue
+  icon: code
+inputs:
+  file1:
+    description: "Compare json file."
+    required: true
+  file2:
+    description: "Compare json file."
+    required: true
+  not:
+    description: "If true, this action check object is not equal."
+    required: false
+    default: "false"
+runs:
+  using: composite
+  steps:
+    - name: check
+      shell: bash
+      run: python check.py "$FILE1" "$FILE2" $NOT_EQUAL
+      env:
+        FILE1: ${{ inputs.file1 }}
+        FILE2: ${{ inputs.file2 }}
+        NOT_EQUAL: ${{ fromJSON(inputs.not) && '--not-equal' || '' }}

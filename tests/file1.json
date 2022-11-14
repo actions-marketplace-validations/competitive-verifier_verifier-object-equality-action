@@ -1,0 +1,20 @@
+{
+    "files": {
+        "foo/bar.py": {},
+        "foo/baz.py": {
+            "path": "foo/baz.py",
+            "document_attributes": {
+                "title": "foo-baz"
+            },
+            "dependencies": [
+                "foo/bar.py"
+            ],
+            "verification": [
+                {
+                    "type": "const",
+                    "status": "success"
+                }
+            ]
+        }
+    }
+}

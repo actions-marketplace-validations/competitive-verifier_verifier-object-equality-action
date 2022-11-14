@@ -1,0 +1,59 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up competitive-verifier
+        uses: competitive-verifier/setup-competitive-verifier@v1
+        with:
+          python-version: "3.9"
+
+      - name: equal
+        id: equal
+        uses: ./
+        with:
+          file1: tests/file1.json
+          file2: tests/file1.json
+      - name: equal-difference
+        id: equal-difference
+        uses: ./
+        continue-on-error: true
+        with:
+          file1: tests/file1.json
+          file2: tests/file2.json
+
+      - name: not-equal
+        id: not-equal
+        uses: ./
+        continue-on-error: true
+        with:
+          file1: tests/file1.json
+          file2: tests/file1.json
+          not: true
+      - name: not-equal-difference
+        id: not-equal-difference
+        uses: ./
+        with:
+          file1: tests/file1.json
+          file2: tests/file2.json
+          not: true
+
+      - name: Check outcome
+        run: |
+          test "${{steps.equal.outcome}}" = "success"
+          test "${{steps.equal-difference.outcome}}" = "failure"
+
+          test "${{steps.not-equal.outcome}}" = "failure"
+          test "${{steps.not-equal-difference.outcome}}" = "success"

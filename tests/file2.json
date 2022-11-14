@@ -1,0 +1,20 @@
+{
+    "files": {
+        "hoge/bar.py": {},
+        "hoge/baz.py": {
+            "path": "hoge/baz.py",
+            "document_attributes": {
+                "title": "foo-baz"
+            },
+            "dependencies": [
+                "hoge/bar.py"
+            ],
+            "verification": [
+                {
+                    "type": "const",
+                    "status": "success"
+                }
+            ]
+        }
+    }
+}

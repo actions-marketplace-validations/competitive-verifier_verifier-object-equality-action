@@ -24,6 +24,7 @@ jobs:
         id: equal
         uses: ./
         with:
+          class: VerificationInput
           file1: tests/file1.json
           file2: tests/file1.json
       - name: equal-difference
@@ -31,6 +32,7 @@ jobs:
         uses: ./
         continue-on-error: true
         with:
+          class: VerificationInput
           file1: tests/file1.json
           file2: tests/file2.json
 
@@ -39,6 +41,7 @@ jobs:
         uses: ./
         continue-on-error: true
         with:
+          class: VerificationInput
           file1: tests/file1.json
           file2: tests/file1.json
           not: true
@@ -46,6 +49,7 @@ jobs:
         id: not-equal-difference
         uses: ./
         with:
+          class: VerificationInput
           file1: tests/file1.json
           file2: tests/file2.json
           not: true

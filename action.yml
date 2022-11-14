@@ -5,6 +5,9 @@ branding:
   color: blue
   icon: code
 inputs:
+  class:
+    description: "Object class name."
+    required: true
   file1:
     description: "Compare json file."
     required: true
@@ -20,8 +23,9 @@ runs:
   steps:
     - name: check
       shell: bash
-      run: python check.py "$FILE1" "$FILE2" $NOT_EQUAL
+      run: python check.py "$CLASS_NAME" "$FILE1" "$FILE2" $NOT_EQUAL
       env:
+        CLASS_NAME: ${{ inputs.class }}
         FILE1: ${{ inputs.file1 }}
         FILE2: ${{ inputs.file2 }}
         NOT_EQUAL: ${{ fromJSON(inputs.not) && '--not-equal' || '' }}

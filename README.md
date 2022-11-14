@@ -31,11 +31,13 @@ jobs:
       - name: equal
         uses: competitive-verifier/verifier-object-equality-action@v1
         with:
+          class: VerificationInput
           file1: file-foo.json
           file2: file-bar.json
       - name: not-equal
         uses: competitive-verifier/verifier-object-equality-action@v1
         with:
+          class: VerificationInput
           file1: file-foo.json
           file2: file-baz.json
           not: true
